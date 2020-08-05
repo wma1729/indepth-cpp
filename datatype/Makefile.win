@@ -1,0 +1,15 @@
+CC = cl /nologo
+CFLAGS = /c
+DBG = /O2
+
+OBJS = integer.obj
+
+EXES = integer.exe
+
+all: $(EXES)
+
+integer.exe: integer.cpp
+	$(CC) $(DBG) /EHsc $** /Fe$@
+
+clean:
+	@del /q $(OBJS) $(EXES)
