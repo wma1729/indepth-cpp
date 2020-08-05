@@ -59,6 +59,12 @@ main()
 		<< std::setw(24) << std::numeric_limits<unsigned int>::max()
 		<< std::setw(12) << std::boolalpha << std::numeric_limits<unsigned int>::is_signed
 		<< std::endl;
+	std::cout << std::setw(20) << "signed"
+		<< std::setw(8) << sizeof(signed)
+		<< std::setw(24) << std::numeric_limits<signed>::min()
+		<< std::setw(24) << std::numeric_limits<signed>::max()
+		<< std::setw(12) << std::boolalpha << std::numeric_limits<signed>::is_signed
+		<< std::endl;
 	std::cout << std::setw(20) << "unsigned"
 		<< std::setw(8) << sizeof(unsigned)
 		<< std::setw(24) << std::numeric_limits<unsigned>::min()

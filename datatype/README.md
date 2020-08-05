@@ -13,6 +13,7 @@ x86_64 Linux
       unsigned short       2                       0                   65535       false
                  int       4             -2147483648              2147483647        true
         unsigned int       4                       0              4294967295       false
+              signed       4             -2147483648              2147483647        true
             unsigned       4                       0              4294967295       false
                 long       8    -9223372036854775808     9223372036854775807        true
        unsigned long       8                       0    18446744073709551615       false
@@ -31,6 +32,7 @@ x86_64 Windows 10
       unsigned short       2                       0                   65535       false
                  int       4             -2147483648              2147483647        true
         unsigned int       4                       0              4294967295       false
+              signed       4             -2147483648              2147483647        true
             unsigned       4                       0              4294967295       false
                 long       4             -2147483648              2147483647        true
        unsigned long       4                       0              4294967295       false
@@ -39,7 +41,6 @@ x86_64 Windows 10
 ```
 
 A few things stand out from this table:
-- `char`, `signed char`, and `unsigned char` are all treated as separate data types. Is char signed or unsigned? It depends on the platform. On both of the systems above, char is signed.
-- Both `signed` and `unsigned` without further qualifications resolve to 4-byte `int`.
+- `char`, `signed char`, and `unsigned char` are all treated as separate data types. Is the *char* signed or unsigned? It depends on the platform. On both of the systems above, char is signed.
+- Both `signed` and `unsigned`, without further qualifications, resolve to 4-byte `int`.
 - On Windows, `long` is 4-bytes even on 64-bit platform.
-
