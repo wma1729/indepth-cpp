@@ -41,6 +41,59 @@ x86_64 Windows 10
 ```
 
 A few things stand out from this table:
-- `char`, `signed char`, and `unsigned char` are all treated as separate data types. Is the *char* signed or unsigned? It depends on the platform. On both of the systems above, char is signed.
+- `char`, `signed char`, and `unsigned char` are all treated as separate data types. Is the **char** signed or unsigned? It depends on the platform. On both of the systems above, char is signed.
+- `short`, `int`, and `long` are always signed. `char` is the odd one out.
 - Both `signed` and `unsigned`, without further qualifications, resolve to 4-byte `int`.
 - On Windows, `long` is 4-bytes even on 64-bit platform.
+
+### Negative Number Storage
+Negative numbers are stored as 2's complement, which is 1's complement + 1.
+Number | Binary Representation | 1's complement | 2's complement
+-------|-----------------------|----------------|---------------
+0      | 0000 0000             | 1111 1111      | 0000 0000
+1      | 0000 0001             | 1111 1110      | 1111 1111
+2      | 0000 0010             | 1111 0010      | 1111 0011
+126    | 0111 1110             | 1000 0001      | 1000 0010
+127    | 0111 1111             | 1000 0000      | 1000 0001
+
+### Casting
+Casting up an integer number, I<sub>small</sub>, to a bigger integer data type is safe as along as I<sub>small</sub> is not negative.
+```C++
+short s = -1;             // s = 0xffff
+unsigned int i = s;       // i = 0xffff ffff
+```
+
+This is usually not that bad as most programmers understand such nuances. Problems arise when the compiler does an auto upcast.
+```C++
+#include <iostream>
+
+int
+main()
+{
+        short           s = -1;
+        unsigned int    i = 1;
+
+        /*
+         * One side of the comparison is short and the other side is unsigned int.
+         * The comiler auto upgrades s to unsigned int. This makes s bigger than i.
+         * An easy to miss comparison.
+         */
+        if (s > i)
+                std::cout << "Surprise!!!" << std::endl;
+        else
+                std::cout << "Liar!" << std::endl;
+
+        return 0;
+}
+```
+
+Casting down an integer number to a smaller integer data type is dangerous and can lead to loss of information. You will see tons of code around where downcast is seen. In those cases, the programmer is usually aware of the possible values that the variables can hold.
+
+### Shift Operators
+The behavior of shift operators on negative numbers is undefined.
+
+### When to use signed/unsigned data types.
+Use unsigned types when dealing with flags/bitmaps where the values are primarily set/checked/cleared using bitwise operator. They are often very useful when programming lower level system programming like interaction with hardware device, low level protocol management, etc. especially when the extra bit can be the life-saver. For all other needs rely on signed data types.
+
+### My 2 cents on unsignedness of size_t
+Hate it! It lead to the creation of ssize_t (signed size_t).  I am aware of most arguments in favor of it. From my experience, it leads to useless type-casting and in some cases prevent natural programming flow.
