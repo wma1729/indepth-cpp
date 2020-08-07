@@ -43,7 +43,7 @@ x86_64 Windows 10
 A few things stand out from this table:
 - `char`, `signed char`, and `unsigned char` are all treated as separate data types. Is the **char** signed or unsigned? It depends on the platform. On both of the systems above, char is signed.
 - `short`, `int`, and `long` are always signed. `char` is the odd one out.
-- Both `signed` and `unsigned`, without further qualifications, resolve to 4-byte `int`.
+- Both `signed` and `unsigned`, without further qualifications, resolve to 4-byte integer type.
 - On Windows, `long` is 4-bytes even on 64-bit platform.
 
 ### Negative Number Storage
@@ -87,13 +87,23 @@ main()
 }
 ```
 
-Casting down an integer number to a smaller integer data type is dangerous and can lead to loss of information. You will see tons of code around where downcast is seen. In those cases, the programmer is usually aware of the possible values that the variables can hold.
+Casting down an integer number to a smaller integer data type is dangerous and can lead to loss of information. You will see tons of code around where downcast is seen. In those cases, the programmers are usually aware of the possible values that the variables can hold.
 
 ### Shift Operators
 The behavior of shift operators on negative numbers is undefined.
 
 ### When to use signed/unsigned data types.
 Use unsigned types when dealing with flags/bitmaps where the values are primarily set/checked/cleared using bitwise operator. They are often very useful when programming lower level system programming like interaction with hardware device, low level protocol management, etc. especially when the extra bit can be the life-saver. For all other needs rely on signed data types.
+
+### stdint.h/cstdint
+Avoid the urge to define your own integer types like
+```C++
+typedef short           int16;
+typedef unsigned short  uint16;
+typedef int             int32;
+typedef unsigned int    uint32;
+```
+If having the size embedded in the type name is comforting to you, look at stdint.h or its C++ sibling cstdint. Many such types are already pre-defined there.
 
 ### My 2 cents on unsignedness of size_t
 Hate it! It lead to the creation of ssize_t (signed size_t).  I am aware of most arguments in favor of it. From my experience, it leads to useless type-casting and in some cases prevent natural programming flow.
