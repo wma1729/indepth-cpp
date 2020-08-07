@@ -1,13 +1,16 @@
 DBG     = -O
 CFLAGS  = -c
 
-OBJS   = integer.o
+OBJS   = integer.o real.o
 
-EXES   = integer
+EXES   = integer real
 
 all: ${EXES}
 
 integer: integer.cpp
+	g++ ${DBG} $^ -o $@
+
+real: real.cpp
 	g++ ${DBG} $^ -o $@
 
 clean:
