@@ -143,6 +143,27 @@ Base | Number | Equivalent |Scientific
 10   | 235.25 | 2 * 10<sup>2</sup> + 3 * 10<sup>1</sup> + 5 * 10<sup>0</sup> + 2 * 10<sup>-1</sup> + 5 * 10<sup>-2</sup> | 2.3225 * 10<sup>2</sup>
 2    | 1110 1011 . 01 | 1 * 2<sup>7</sup> + 1 * 2<sup>6</sup> + 1 * 2<sup>5</sup> + 0 * 2<sup>4</sup> + 1 * 2<sup>3</sup> + 0 * 2<sup>2</sup> + 1 * 2<sup>1</sup> + 1 * 2<sup>0</sup> + 0 * 2<sup>-1</sup> + 1 * 2<sup>-2</sup> | 1.110 1011 01 * 2<sup>7</sup>
 
+How to convert decimal real number to binary number?
+```
+For the whole part, 235, keep dividing the number by 2 until 0 and keep storing the remainder.
+    235          Remainder
+
+2 | 235
+2 | 117          1  (MSB)
+2 | 58           1    |
+2 | 29           0    |
+2 | 14           1    |
+2 | 7            0    |
+2 | 3            1    |
+2 | 1            1    V
+  | 0 (Stop)     1  (LSB)
+
+For the fraction part, .25, keep multiplying by 2 until 1.0 and store the number left of the decimal point.
+    .25                  Left of decimal
+    
+2 * .25 = 0.50           0
+2 * .50 = 1.00           1
+```
 A number is scientific notation is **m * b<sup>e</sup>** where **m** is called the **mantissa** or significand, **b** is the **base**, and **e** is the **exponent**.
 
 ### Intro the IEEE754 format 
