@@ -164,6 +164,6 @@ For the fraction part, .25, keep multiplying by 2 until 1.0 and store the number
 2 * .25 = 0.50           0
 2 * .50 = 1.00           1
 ```
-A number is scientific notation is **m * b<sup>e</sup>** where **m** is called the **mantissa** or significand, **b** is the **base**, and **e** is the **exponent**.
 
 ### Intro the IEEE754 format 
+A number is scientific notation is **m * b<sup>e</sup>** where **m** is called the **mantissa** or significand, **b** is the **base**, and **e** is the **exponent**.
