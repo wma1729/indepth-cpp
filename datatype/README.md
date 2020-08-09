@@ -116,7 +116,7 @@ C++ primarily offers two real types: `float` and `double`. Both are signed. Ther
 
 x86_64 Linux
 ```
-        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp    IEE754
+        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754
        float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true
       double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
  long double    16  -1.18973e+4932    3.3621e-4932   1.18973e+4932       2      64    -16381     16384      true
@@ -124,7 +124,7 @@ x86_64 Linux
 
 x86_64 Windows 10
 ```
-        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp    IEE754
+        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754
        float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true
       double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
  long double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
@@ -165,5 +165,35 @@ For the fraction part, .25, keep multiplying by 2 until 1.0 and store the number
 2 * .50 = 1.00           1
 ```
 
-### Intro the IEEE754 format 
-A number is scientific notation is **m * b<sup>e</sup>** where **m** is called the **mantissa** or significand, **b** is the **base**, and **e** is the **exponent**.
+### Intro the IEEE 754 format 
+A number is scientific notation is **m * b<sup>e</sup>** where
+- **m** is called the **mantissa** or the significand
+- **b** is the **base** or the radix
+- **e** is the **exponent**.
+
+A real number in IEEE 754 format is represented as:
+Size | Sign Bit   | Exponent          | Mantissa         | Bias
+-----|------------|-------------------|------------------|------------------
+32   | 31 (1 bit) | 30 - 23 (8 bits)  | 22 - 0 (23 bits) | 127 
+64   | 63 (1 bit) | 62 - 52 (11 bits) | 51 - 0 (52 bits) | 1023
+80   | 79 (1 bit) | 78 - 64 (15 bits) | 63 - 0 (64 bits) | 16383
+
+**Sign Bit:** 1 for negative number and 0 for positive number.
+**Exponent:** -1 is 1111 1111 while 0 is 0000 0000. This makes comparison between two real numbers difficult. To address this, a **bias** is used. For 32-bit real number, the bias is 127 i.e. 1111 1111.
+
+Number | Binary Value | Binary Value + Bias
+-------|--------------|-------------------------
+-127   | 1000 0001    | 0000 0000
+-126   | 1000 0010    | 0000 0001
+-125   | 1000 0011    | 0000 0010
+-2     | 1111 1110    | 0111 1101
+-1     | 1111 1111    | 0111 1110
+0      | 0000 0000    | 0111 1111
+1      | 0000 0001    | 1000 0000
+2      | 0000 0010    | 1000 0001
+125    | 0111 1101    | 1111 1100
+126    | 0111 1110    | 1111 1101
+127    | 0111 1111    | 1111 1110
+128    | 1000 0000    | 1111 1111
+
+**Mantissa:** It is usually of the form 1.bbbbbb... Because 1 is implicit, it is usually skipped from the representation and the mantissa bits are effectively 24 instead of 23, 53 instead of 52, and 65 instead of 64 for 32-bit, 64-bit, and 80-bit representations respectively.
