@@ -131,6 +131,18 @@ x86_64 Windows 10
 ```
 
 What do we learn from these tables?
-- Both Linux and Windows follow IEE754 format for real numbers.
+- Both Linux and Windows follow IEEE754 format for real numbers.
 - `double` is identical to `long double` on Windows.
 - `double` and `long double` on Linux are different data types. The real size of `long double` is **10** as we will see.
+
+### Intro to real number storage
+Real numbers, like integers, are stored as binary.
+
+Base | Number | Equivalent |Scientific
+-----|--------|------------|----------
+10   | 235.25 | 2 * 10<sup>2</sup> + 3 * 10<sup>1</sup> + 5 * 10<sup>0</sup> + 2 * 10<sup>-1</sup> + 5 * 10<sup>-2</sup> | 2.3225 * 10<sup>2</sup>
+2    | 1110 1011 . 01 | 1 * 2<sup>7</sup> + 1 * 2<sup>6</sup> + 1 * 2<sup>5</sup> + 0 * 2<sup>4</sup> + 1 * 2<sup>3</sup> + 0 * 2<sup>2</sup> + 1 * 2<sup>1</sup> + 1 * 2<sup>0</sup> + 0 * 2<sup>-1</sup> + 1 * 2<sup>-2</sup> | 1.110 1011 01 * 2<sup>7</sup>
+
+A number is scientific notation is **m * b<sup>e</sup>** where **m** is called the **mantissa** or significand, **b** is the **base**, and **e** is the **exponent**.
+
+### Intro the IEEE754 format 
