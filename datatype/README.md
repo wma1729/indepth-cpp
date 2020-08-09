@@ -131,7 +131,7 @@ x86_64 Windows 10
 ```
 
 What do we learn from these tables?
-- Both Linux and Windows follow IEEE754 format for real numbers.
+- Both Linux and Windows follow IEEE 754 format for real numbers.
 - `double` is identical to `long double` on Windows.
 - `double` and `long double` on Linux are different data types. The real size of `long double` is **10** as we will see.
 
@@ -179,6 +179,7 @@ Size | Sign Bit   | Exponent          | Mantissa         | Bias
 80   | 79 (1 bit) | 78 - 64 (15 bits) | 63 - 0 (64 bits) | 16383
 
 **Sign Bit:** 1 for negative number and 0 for positive number.
+
 **Exponent:** -1 is 1111 1111 while 0 is 0000 0000. This makes comparison between two real numbers difficult. To address this, a **bias** is used. For 32-bit real number, the bias is 127 i.e. 1111 1111.
 
 Number | Binary Value | Binary Value + Bias
