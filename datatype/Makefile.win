@@ -2,9 +2,9 @@ CC = cl /nologo
 CFLAGS = /c
 DBG = /O2
 
-OBJS = integer.obj real.obj
+OBJS = integer.obj real.obj realcomp.obj
 
-EXES = integer.exe real.exe
+EXES = integer.exe real.exe realcomp.exe
 
 all: $(EXES)
 
@@ -12,6 +12,9 @@ integer.exe: integer.cpp
 	$(CC) $(DBG) /EHsc $** /Fe$@
 
 real.exe: real.cpp
+	$(CC) $(DBG) /EHsc $** /Fe$@
+
+realcomp.exe: realcomp.cpp
 	$(CC) $(DBG) /EHsc $** /Fe$@
 
 clean:
