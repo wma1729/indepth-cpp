@@ -45,12 +45,12 @@ main(int argc, const char **argv)
 
 	int e = get_exponent(ival);
 	int m = get_mantissa(ival);
-	std::bitset<8> eset(e);
-	std::bitset<23> mset(m);
 
-	std::cout << "Signed: " << std::boolalpha << is_signed(ival) << std::endl;
-	std::cout << "Exponent: " << eset.to_string() << " (" << e << ", unbiased = " << e - 127 << ")" <<  std::endl;
-	std::cout << "Mantissa: " << mset.to_string() << std::endl;
+	std::cout << "Negative: " << std::boolalpha << is_signed(ival) << std::endl;
+	std::cout << "Exponent: " << std::bitset<8>(e).to_string()
+		<< " (" << e << ", unbiased = " << e - 127 << ")" <<  std::endl;
+	std::cout << "Mantissa: " << std::bitset<23>(m).to_string() << std::endl;
+	std::cout << "Number  : " << std::bitset<32>(ival).to_string() << std::endl;
 
 	return 0;
 }
