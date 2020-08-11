@@ -198,3 +198,17 @@ Number | Binary Value | Binary Value + Bias
 128    | 1000 0000    | 1111 1111
 
 **Mantissa:** It is usually of the form 1.bbbbbb... Because 1 is implicit, it is usually skipped from the representation and the mantissa bits are effectively 24 instead of 23, 53 instead of 52, and 65 instead of 64 for 32-bit, 64-bit, and 80-bit representations respectively.
+
+Let's see an example of storing a 32-bit real number, 6.25.
+Number | Binary Form | Binary scientific notation | Sign | Exponent | Exponent with bias | Mantissa
+-------|-------------|----------------------------|------|----------|--------------------|---------------------------------
+6.25   | 110.01      | 1.1001 * 2<sup>2</sup>     | 0    | 2        | 129 (10000001)     | 1001 (1 before **.** is ignored)
+
+Using the program [realcomp](realcomp.cpp) which prints components of a floating point number, we can see that the representation matches our expectations.
+```
+$ ./realcomp 6.25
+Negative: false
+Exponent: 10000001 (129, unbiased = 2)
+Mantissa: 10010000000000000000000
+Number  : 01000000110010000000000000000000
+```
