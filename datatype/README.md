@@ -135,6 +135,8 @@ What do we learn from these tables?
 - `double` is identical to `long double` on Windows.
 - `double` and `long double` on Linux are different data types. The real size of `long double` is **10** as we will see.
 
+`float`, often called *single-precision* data type offers a precision of 6-7 significant digits after the decimal point. `double` almost doubles the precision to 15-16 significant digits after the decimal point and are so called `double-precision` data type.
+
 ### Intro to real number storage
 Real numbers, like integers, are stored as binary.
 
@@ -212,3 +214,18 @@ Exponent: 10000001 (129, unbiased = 2)
 Mantissa: 10010000000000000000000
 Number  : 01000000110010000000000000000000
 ```
+
+### Special numbers
+- **0** The exponent and mantissa bits are all 0s. Can be +0 or -0 though they are treated similarly.
+```
++0: 00000000 00000000 00000000 00000000
+-0: 10000000 00000000 00000000 00000000
+```
+- **infinity** The exponent bits are all 1s and mantissa bits are all 0s. Can be +infinity or -infinity. They both are different.
+```
++infinity: 01111111 10000000 00000000 00000000
+-infinity: 11111111 10000000 00000000 00000000
+```
+- **nan** Nan stands for **N**ot **a** **N**umber. The exponent fields are all 1s but the mantissa bits are not all 0s (can vary). There are two types of nans:
+  - *quiet* The operation that yields nan does not generate any notification or signal. You have to check explicitly if the result is a nan. ```01111111 11xxxxxx xxxxxxxx xxxxxxxx [Most significant mantissa bit is 1]```
+  - *signalling* The operation that yields nan throws an exception. For example, SIGFPE is raised on Unix platforms. ```01111111 10xxxxxx xxxxxxxx xxxxxxxx [Most significant mantissa bit is 0]```
