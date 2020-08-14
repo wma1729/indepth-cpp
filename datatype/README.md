@@ -278,4 +278,12 @@ Number  : 01111111110000000000000000000001
 ```
 
 ### What data type to use for real numbers?
-There is no easy answer to this question. It depends on the size and precision requirements of the numbers by the application. If the size of the data type is a constraint, go with `float`. For everything else, go with `double`. On most platforms, it should be as fast as `float` and you get the added benefits. I have not used `long double` at all. I am sure there are applications out there that make good use of `long double`.
+There is no easy answer to this question. It depends on the size and precision requirements of the numbers by the application. If the size of the data type is a constraint, go with `float`. For everything else, go with `double`. On most platforms, it should be as fast as `float` and you get the added benefits of more size and more precision. I have not used `long double` at all. I am sure there are applications out there that make good use of `long double`.
+
+### Double rounding
+The C++ spec allows real number computations to be performed using data types with extended precision and many compilers use this. Let's take the following example:
+```
+float f = 7.32f / 11.45f;
+```
+It is possible that the compiler promotes `7.32` and `11.45` to double (this involves the first rounding) before computation. The result will be a double. But result is then demoted to fit the `f` (this involves the second rounding). The statement looks pretty straight-forward but behind the scenes rounding (and that too twice) might be done. So if you are not getting the result that you were expecting, keep this in mind.
+
