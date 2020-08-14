@@ -276,3 +276,6 @@ Exponent: 11111111 (255, unbiased = 128)
 Mantissa: 10000000000000000000001
 Number  : 01111111110000000000000000000001
 ```
+
+### What data type to use for real numbers?
+There is no easy answer to this question. It depends on the size and precision requirements of the numbers by the application. If the size of the data type is a constraint, go with `float`. For everything else, go with `double`. On most platforms, it should be as fast as `float` and you get the added benefits. I have not used `long double` at all. I am sure there are applications out there that make good use of `long double`.
