@@ -15,7 +15,7 @@ real.exe: real.cpp
 	$(CC) $(DBG) /EHsc $** /Fe$@
 
 realcomp.exe: realcomp.cpp
-	$(CC) $(DBG) /EHsc $** /Fe$@
+	$(CC) $(DBG) /EHsc /fp:strict $** /Fe$@
 
 clean:
 	@del /q $(OBJS) $(EXES)

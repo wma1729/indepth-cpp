@@ -116,18 +116,18 @@ C++ primarily offers two real types: `float` and `double`. Both are signed. Ther
 
 x86_64 Linux
 ```
-        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754
-       float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true
-      double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
- long double    16  -1.18973e+4932    3.3621e-4932   1.18973e+4932       2      64    -16381     16384      true
+        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754  Infinity  QuietNaN  SignalingNaN
+       float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true      true      true          true
+      double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true      true      true          true
+ long double    16  -1.18973e+4932    3.3621e-4932   1.18973e+4932       2      64    -16381     16384      true      true      true          true
 ```
 
 x86_64 Windows 10
 ```
-        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754
-       float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true
-      double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
- long double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true
+        Type  Size         Min -ve         Min +ve         Max +ve   Radix  Digits   Min-Exp   Max-Exp  IEEE 754  Infinity  QuietNaN  SignalingNaN
+       float     4    -3.40282e+38     1.17549e-38     3.40282e+38       2      24      -125       128      true      true      true          true
+      double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true      true      true          true
+ long double     8   -1.79769e+308    2.22507e-308    1.79769e+308       2      53     -1021      1024      true      true      true          true
 ```
 
 What do we learn from these tables?
@@ -217,15 +217,62 @@ Number  : 01000000110010000000000000000000
 
 ### Special numbers
 - **0** The exponent and mantissa bits are all 0s. Can be +0 or -0 though they are treated similarly.
-```
-+0: 00000000 00000000 00000000 00000000
--0: 10000000 00000000 00000000 00000000
-```
 - **infinity** The exponent bits are all 1s and mantissa bits are all 0s. Can be +infinity or -infinity. They both are different.
+- **nan** Nan stands for **N**ot **a** **N**umber. The exponent fields are all 1s but the mantissa bits are not all 0s. There are two types of nans:
+  - *quiet* The operation that yields nan does not generate any notification or signal. You have to check explicitly if the result is a nan.
+  - *signalling* The operation that yields nan throws an exception. For example, SIGFPE is raised on Unix platforms.
+
+Using the program [realcomp](realcomp.cpp), we can see the values of these special numbers.
 ```
-+infinity: 01111111 10000000 00000000 00000000
--infinity: 11111111 10000000 00000000 00000000
+$ ./realcomp -0.0
+Negative: true
+Exponent: 00000000 (0, unbiased = -127)
+Mantissa: 00000000000000000000000
+Number  : 10000000000000000000000000000000
+
+$ ./realcomp +0.0
+Negative: false
+Exponent: 00000000 (0, unbiased = -127)
+Mantissa: 00000000000000000000000
+Number  : 00000000000000000000000000000000
+
+$ ./realcomp -inf
+Negative: true
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 00000000000000000000000
+Number  : 11111111100000000000000000000000
+
+$ ./realcomp inf
+Negative: false
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 00000000000000000000000
+Number  : 01111111100000000000000000000000
+
+# On Linux
+
+$ ./realcomp nan
+Quiet NaN
+Negative: false
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 10000000000000000000000
+Number  : 01111111110000000000000000000000
+Signaling NaN
+Negative: false
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 01000000000000000000000
+Number  : 01111111101000000000000000000000
+
+# On Windows
+
+c:\realcomp.exe nan
+Quiet NaN
+Negative: false
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 10000000000000000000000
+Number  : 01111111110000000000000000000000
+Signaling NaN
+Negative: false
+Exponent: 11111111 (255, unbiased = 128)
+Mantissa: 10000000000000000000001
+Number  : 01111111110000000000000000000001
 ```
-- **nan** Nan stands for **N**ot **a** **N**umber. The exponent fields are all 1s but the mantissa bits are not all 0s (can vary). There are two types of nans:
-  - *quiet* The operation that yields nan does not generate any notification or signal. You have to check explicitly if the result is a nan. ```01111111 11xxxxxx xxxxxxxx xxxxxxxx [Most significant mantissa bit is 1]```
-  - *signalling* The operation that yields nan throws an exception. For example, SIGFPE is raised on Unix platforms. ```01111111 10xxxxxx xxxxxxxx xxxxxxxx [Most significant mantissa bit is 0]```
