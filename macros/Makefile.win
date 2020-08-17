@@ -1,0 +1,15 @@
+CC = cl /nologo
+CFLAGS = /c /Wall
+DBG = /O2
+
+OBJS = enum.obj
+
+EXES = enum.exe
+
+all: $(EXES)
+
+enum.exe: enum.cpp
+	$(CC) /W2 /WX $(DBG) /EHsc $** /Fe$@
+
+clean:
+	@del /q $(OBJS) $(EXES)
