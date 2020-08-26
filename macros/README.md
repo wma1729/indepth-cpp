@@ -28,7 +28,13 @@ const std::string CppStyledConst("a C++ styled constant string";
 ```
 
 ## Prefer enums
-Prefer enums over related #define'd macros. Prefer `scoped enums` over `unscoped enums`. Take a look at program [enum](enum.cpp).
+Prefer enums over related #define'd macros. Prefer `scoped enums` over `unscoped enums`.
+
+### Unscoped enums
+- Not bound to any namespace.
+- Though typed but not strictly typed. Enumerated values implicitly converts to integral types.
+
+Take a look at program [enum](enum.cpp).
 ```C++
 /*
  * Example of unscoped enum.
@@ -57,4 +63,12 @@ enum flags_large {
         l_rdwr   = 0x7fffffff00000004
 };
 ```
-The size of enum is decided by the compiler based on the constant values. With gcc, it changes to fit the larger constants. However, cl does not go beyond 4.
+The size of enum is decided by the compiler based on the constant values. With gcc, it changes to fit the larger constants. However, cl does not go beyond 4. This can be changed though by explicitly specifying the storage type.
+```
+enum flags_large : long long {
+        l_none   = 0x7fffffff00000000,
+        l_rdonly = 0x7fffffff00000001,
+        l_wronly = 0x7fffffff00000002,
+        l_rdwr   = 0x7fffffff00000004
+};
+```
