@@ -31,7 +31,7 @@ const std::string CppStyledConst("a C++ styled constant string";
 Prefer enums over related #define'd macros. Prefer `scoped enums` over `unscoped enums`.
 
 ### Unscoped enums
->>enum <name> { list }
+>enum <name> { list }
 - Not bound to any namespace.
 - Though typed but not strictly typed. Enumerated values implicitly converts to integral types.
 - Because of implicit conversion to integral types, binary operations like `|`, `&', etc. works fine.
